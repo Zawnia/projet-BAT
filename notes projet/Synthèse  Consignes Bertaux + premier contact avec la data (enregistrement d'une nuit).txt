@@ -1,0 +1,27 @@
+Réponse de Bertaux — 3 éléments
+
+Références bibliographiques — 3 bouquins de terrain naturaliste (Barataud, Arthur/Lemaire, Russ). Pas de papiers ML, ce qui confirme son ancrage "acoustique/terrain". Utiles pour comprendre la biologie des espèces (FME typiques, comportements) mais ne couvriront pas l'approche algo. Il mentionne aussi son site perso avec des spectrogrammes de ses propres enregistrements.
+La data — un fichier nuit entière (DATA00.TXT + DATA00.DAT). Le TXT est lisible directement, le DAT est le binaire équivalent. D'autres enregistrements viendront plus tard.
+Le ton — "À vous de jouer" : il nous donne les clés et attend qu'on déroule. Pas de cadrage méthodologique imposé, ce qui nous laisse de la liberté pour défendre l'approche ML.
+
+
+Chiffres clés de l'EDA
+
+14 453 détections sur ~11h (25s → 40 428s)
+680 artefacts (FME = 0, SNR = 0, durée = 0) → à filtrer
+FME médiane : 38.7 kHz, résolution 0.39 kHz/bin (200kHz / 512 pts)
+SNR médian : 26 dB, min théorique du capteur : 19 dB
+Gap médian inter-détections : 68ms, mean : 2823ms (très skewé par les grands silences)
+Gaps > 100ms : 5 977 → nombre approximatif de changements de séquences
+
+
+Interprétation des en-têtes et utilité
+ChampCe que c'estUtilité projettime_msHorodatage en msSegmentation temporelle des séquencesposFMEBin FFT de la fréquence de max énergieFeature principale pour identifier espèce/spécimenposFIBin FFT fréquence initiale du chirp (haut du L)Feature secondaire, caractérise la forme du criposFTBin FFT fréquence terminale (bas du L)Idem, complète la description du chirpposDUREEDurée en nombre de fenêtres FFTCaractérise le type de cri, utile pour filtrer les échos (très courts)SNRdBRapport signal/bruitQualité de la détection — à utiliser pour pondérer ou filtrer
+
+3 groupes FME visibles dans la distribution (après une simple première analyse par un LLM donc difficile de variment conclure) :
+
+~35-43 kHz (bleu) — groupe dominant, 1 ou 2 espèces communes
+~50-57 kHz (orange) — second groupe distinct
+~12-14 kHz (vert) — probablement cris sociaux ayant passé le filtre → à exclure
+
+Ce qu'il reste à creuser avant le simulateur : distribution du nb de cris par séquence, stabilité de la FME intra-séquence, seuil de détection des échos, et statut des 680 artefacts.

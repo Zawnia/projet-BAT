@@ -1,0 +1,18 @@
+Le capteur
+C'est un prototype custom qui fait du traitement embarqué en temps réel. Ce qu'il sort pour chaque détection : f_initial, f_terminal (les deux extrémités de la forme en L du chirp sur un spectrogramme f(t)), dt (durée du cri), t_fin, SNR en dB, et surtout FME — la fréquence de max énergie, extraite depuis la densité spectrale. La FME est la feature la plus robuste au bruit et la plus discriminante : un même spécimen/espèce → FME stable. C'est clairement le pilier de l'analyse.
+Un point important : on filtre les cris sociaux (basse fréquence) dès le départ, on ne travaille que sur les cris d'écholocation.
+La donnée réelle
+Des enregistrements réels pris à Marseille, durée de quelques heures à une nuit entière. C'est une liste de détections horodatées en ms avec les paramètres ci-dessus.
+Les trois blocs du projet
+
+Analyse du problème / EDA — bien comprendre la structure de la donnée, ce qui est exploitable, les distributions de FME, les artefacts (échos notamment), la qualité des features selon le SNR.
+Simulateur paramétrable — générer de la donnée synthétique maîtrisée : nb d'espèces, nb de spécimens par espèce, espacement inter-chirps, marquage par séquence. L'objectif est de pouvoir tester les algos dans un cadre contrôlé avant de les lâcher sur le réel.
+Outil d'identification — séparer les séquences (gap > ~100ms = nouvelle séquence), gérer les échos (répétitions parasites du même cri par rebond acoustique → moyenner), et in fine estimer le nombre de spécimens/espèces.
+
+Ce qui structure le problème
+La logique temporelle est à deux niveaux :
+
+Intra-séquence : les cris d'un même individu sont espacés de ~100ms. Les échos sont des répétitions très proches temporellement du même cri → à dédupliquer.
+Inter-séquence : un grand silence (> seuil à définir, probablement > 100ms de façon franche) marque le passage à une nouvelle séquence / nouvel individu potentiel.
+
+La FME est la clé pour rattacher une séquence à une espèce, voire à un spécimen si la résolution est suffisante.
