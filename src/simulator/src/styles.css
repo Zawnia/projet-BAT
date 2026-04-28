@@ -1,0 +1,326 @@
+:root {
+  color: #edf6f9;
+  background: #071015;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 1060px;
+  background:
+    linear-gradient(180deg, rgba(14, 26, 35, 0.98), rgba(5, 10, 14, 1)),
+    #071015;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #edf6f9;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 7px;
+  padding: 8px 11px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+button:disabled {
+  cursor: progress;
+  opacity: 0.55;
+}
+
+input,
+select {
+  width: 100%;
+  color: #edf6f9;
+  background: rgba(1, 8, 12, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 7px;
+  padding: 7px 8px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: rgba(237, 246, 249, 0.74);
+  font-size: 12px;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+}
+
+.topbar {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(7, 16, 21, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.topbar h1,
+.topbar p,
+.panel h2 {
+  margin: 0;
+}
+
+.topbar h1 {
+  font-size: 20px;
+  font-weight: 650;
+}
+
+.topbar p,
+.muted {
+  color: rgba(237, 246, 249, 0.58);
+}
+
+.actions {
+  position: relative;
+  z-index: 110;
+  display: flex;
+  gap: 8px;
+}
+
+.export-group {
+  position: relative;
+  display: inline-flex;
+}
+
+.export-main {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.export-arrow {
+  width: 34px;
+  padding-inline: 0;
+  border-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.export-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 120;
+  display: grid;
+  gap: 4px;
+  min-width: 180px;
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(10, 18, 24, 0.97);
+  backdrop-filter: blur(10px);
+}
+
+.export-menu button {
+  text-align: left;
+  border: 0;
+  background: transparent;
+}
+
+.workspace {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 272px minmax(560px, 1fr) 292px;
+  gap: 12px;
+  padding: 12px;
+}
+
+.panel,
+.timeline-panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(16, 27, 35, 0.62);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+}
+
+.panel {
+  min-height: 0;
+  overflow: auto;
+  padding: 14px;
+}
+
+.library,
+.inspector-form {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.panel h2 {
+  font-size: 13px;
+  color: rgba(237, 246, 249, 0.72);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.species-list {
+  display: grid;
+  gap: 8px;
+}
+
+.mix-list {
+  display: grid;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.species-list button {
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+}
+
+.species-list strong,
+.species-list small {
+  display: block;
+}
+
+.species-list small {
+  color: rgba(237, 246, 249, 0.56);
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+}
+
+.primary {
+  background: rgba(78, 161, 255, 0.24);
+  border-color: rgba(78, 161, 255, 0.45);
+}
+
+.timeline-panel {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+}
+
+.timeline-toolbar {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timeline-toolbar span {
+  color: rgba(237, 246, 249, 0.68);
+  font-size: 13px;
+}
+
+.timeline-toolbar label {
+  width: 220px;
+}
+
+.timeline-wrap {
+  min-height: 0;
+  position: relative;
+  overflow: auto;
+}
+
+.timeline-canvas {
+  display: block;
+  min-width: 100%;
+  touch-action: none;
+}
+
+.timeline-scroll {
+  position: sticky;
+  bottom: 0;
+  padding: 8px 12px;
+  background: rgba(7, 16, 21, 0.84);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.context-menu {
+  position: fixed;
+  z-index: 20;
+  display: grid;
+  gap: 4px;
+  min-width: 190px;
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(10, 18, 24, 0.96);
+  backdrop-filter: blur(10px);
+}
+
+.context-menu button {
+  text-align: left;
+  border: 0;
+  background: transparent;
+}
+
+.inspector {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.inspector-form {
+  gap: 11px;
+}
+
+.inspector-form strong {
+  font-size: 14px;
+}
+
+.metric-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0;
+  color: rgba(237, 246, 249, 0.64);
+  font-size: 12px;
+}
+
+.metric-line strong {
+  max-width: 150px;
+  overflow: hidden;
+  color: rgba(237, 246, 249, 0.9);
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inline {
+  grid-template-columns: 18px 1fr;
+  align-items: center;
+}
+
+.inline input {
+  width: 16px;
+}

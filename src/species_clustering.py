@@ -7,6 +7,24 @@ from scipy import optimize, signal, stats
 from sklearn.mixture import GaussianMixture
 
 
+FME_SPECIES_RULES: tuple[tuple[float, float, str], ...] = (
+    (36.0, 39.0, "Pipistrellus kuhlii"),
+    (42.0, 50.0, "Pipistrellus pipistrellus"),
+    (52.0, 58.0, "Pipistrellus pygmaeus"),
+    (24.0, 30.0, "Eptesicus serotinus"),
+    (18.0, 24.0, "Nyctalus sp."),
+    (10.0, 16.0, "Tadarida teniotis"),
+)
+
+
+def label_cluster(fme_median_khz: float) -> str:
+    """Return the most likely species from a simple Marseille FME reference table."""
+    for lower, upper, species in FME_SPECIES_RULES:
+        if lower <= fme_median_khz <= upper:
+            return species
+    return "Indetermine"
+
+
 class SpeciesGMM:
     def __init__(
         self,

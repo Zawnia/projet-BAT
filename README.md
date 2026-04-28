@@ -1,6 +1,6 @@
 # Projet BAT
 
-Outils d'exploration et de clustering pour des detections de chauves-souris a partir de fichiers `DATA*.TXT`.
+Outils d'exploration, de clustering et d'etiquetage probable d'especes de chauves-souris a partir de fichiers `DATA*.TXT`.
 
 ## Structure
 
@@ -23,3 +23,4 @@ Les fichiers de donnees (`data/raw`, `data/simulated`, `data/processed`) restent
 python -m src.species_cli data/raw/DATA00.TXT -o plots/clustering/species_gmm_fit.png
 ```
 
+Le rapport de clustering ajoute une espece probable par cluster a partir de la FME mediane et de plages de reference Marseille.

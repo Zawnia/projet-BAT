@@ -4,10 +4,10 @@ import numpy as np
 
 try:
     from .bat_preprocessing import preprocess_bat_file
-    from .species_clustering import SpeciesGMM, plot_gmm_fit
+    from .species_clustering import SpeciesGMM, label_cluster, plot_gmm_fit
 except ImportError:
     from bat_preprocessing import preprocess_bat_file
-    from species_clustering import SpeciesGMM, plot_gmm_fit
+    from species_clustering import SpeciesGMM, label_cluster, plot_gmm_fit
 
 
 def clustering_report(model: SpeciesGMM, fme_khz: np.ndarray, stats: dict[str, int | float]) -> str:
@@ -41,9 +41,14 @@ def clustering_report(model: SpeciesGMM, fme_khz: np.ndarray, stats: dict[str, i
         params["sigmas"],
         params["weights"],
     ):
+        cluster_fme = fme_khz[labels == label]
+        median = float(np.median(cluster_fme)) if cluster_fme.size else float("nan")
+        species = label_cluster(median)
         lines.append(
             f"  {label}: n={count:5d} ({count / fme_khz.size:6.2%}) "
-            f"mean={mean:7.3f} kHz sigma={sigma:6.3f} kHz weight={weight:6.3f}"
+            f"median={median:7.3f} kHz mean={mean:7.3f} kHz "
+            f"sigma={sigma:6.3f} kHz weight={weight:6.3f} "
+            f"species={species}"
         )
     return "\n".join(lines)
 

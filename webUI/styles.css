@@ -238,7 +238,7 @@ select {
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 660px;
+  min-width: 900px;
 }
 
 th,

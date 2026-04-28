@@ -219,6 +219,28 @@
     });
   }
 
+  function labelCluster(fmeMedianKhz) {
+    const rules = [
+      [36, 39, "Pipistrellus kuhlii"],
+      [42, 50, "Pipistrellus pipistrellus"],
+      [52, 58, "Pipistrellus pygmaeus"],
+      [24, 30, "Eptesicus serotinus"],
+      [18, 24, "Nyctalus sp."],
+      [10, 16, "Tadarida teniotis"],
+    ];
+    const match = rules.find(([lower, upper]) => lower <= fmeMedianKhz && fmeMedianKhz <= upper);
+    return match ? match[2] : "Indetermine";
+  }
+
+  function clusterMedians(values, labels, k) {
+    const grouped = Array.from({ length: k }, () => []);
+    for (let i = 0; i < values.length; i += 1) grouped[labels[i]].push(values[i]);
+    return grouped.map((clusterValues) => {
+      if (!clusterValues.length) return NaN;
+      return quantile(clusterValues.sort((a, b) => a - b), 0.5);
+    });
+  }
+
   function clusterFme(values, options) {
     if (values.length < 3) throw new Error("Trop peu de points pour le clustering");
     const kde = computeKde(values, options);
@@ -234,6 +256,8 @@
     const labels = predict(values, model);
     const counts = Array(k).fill(0);
     for (const label of labels) counts[label] += 1;
+    model.medians = clusterMedians(values, labels, k);
+    model.species = model.medians.map(labelCluster);
     const componentGrid = kde.grid.map((x) => ({
       x,
       mixture: mixtureDensity(x, model),
@@ -252,6 +276,6 @@
     };
   }
 
-  root.BatClustering = { clusterFme, normalPdf, mixtureDensity };
+  root.BatClustering = { clusterFme, labelCluster, normalPdf, mixtureDensity };
   if (typeof module !== "undefined") module.exports = root.BatClustering;
 })(typeof window !== "undefined" ? window : globalThis);

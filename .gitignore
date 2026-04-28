@@ -18,6 +18,15 @@ env/
 .mypy_cache/
 .codex
 
+# Frontend dependencies / build outputs
+node_modules/
+src/simulator/node_modules/
+src/simulator/dist/
+src/simulator/.vite/
+src/simulator/*.tsbuildinfo
+src/simulator/vite.config.js
+src/simulator/vite.config.d.ts
+
 # IDE
 .idea/
 .vscode/

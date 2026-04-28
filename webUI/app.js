@@ -95,6 +95,8 @@
           <td><span class="swatch" style="background:${["#2563eb", "#dc2626", "#16a34a", "#9333ea", "#ea580c", "#0891b2", "#be123c", "#4d7c0f"][index % 8]}"></span>${index}</td>
           <td>${count.toLocaleString("fr-FR")}</td>
           <td>${formatNumber(pct * 100, 2)} %</td>
+          <td>${result.model.species[index]}</td>
+          <td>${formatNumber(result.model.medians[index], 3)}</td>
           <td>${formatNumber(mean, 3)}</td>
           <td>${formatNumber(result.model.sigmas[index], 3)}</td>
           <td>${formatNumber(result.model.weights[index], 3)}</td>

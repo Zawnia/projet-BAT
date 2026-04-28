@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from src.species_clustering import SpeciesGMM
+from src.species_clustering import SpeciesGMM, label_cluster
 
 
 class SpeciesGMMTests(unittest.TestCase):
@@ -44,6 +44,15 @@ class SpeciesGMMTests(unittest.TestCase):
 
         self.assertEqual(model.params["K"], 2)
         self.assertEqual(model.params["kde_peaks"].size, 2)
+
+    def test_label_cluster_uses_fme_reference_ranges(self) -> None:
+        self.assertEqual(label_cluster(38.7), "Pipistrellus kuhlii")
+        self.assertEqual(label_cluster(45.0), "Pipistrellus pipistrellus")
+        self.assertEqual(label_cluster(55.0), "Pipistrellus pygmaeus")
+        self.assertEqual(label_cluster(27.0), "Eptesicus serotinus")
+        self.assertEqual(label_cluster(20.0), "Nyctalus sp.")
+        self.assertEqual(label_cluster(13.0), "Tadarida teniotis")
+        self.assertEqual(label_cluster(33.0), "Indetermine")
 
 
 if __name__ == "__main__":
