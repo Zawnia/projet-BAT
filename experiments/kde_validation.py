@@ -17,7 +17,9 @@ from pathlib import Path
 # ===========================================================================
 # CHARGEMENT DES DONNÉES
 # ===========================================================================
-DATA_PATH = Path(__file__).parent.parent / "data" / "raw" / "DATA00.TXT"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATA_PATH = PROJECT_ROOT / "data" / "raw" / "DATA00.TXT"
+PLOT_PATH = PROJECT_ROOT / "plots" / "clustering" / "test_kde_validation.png"
 
 FREQ_KHZ_ENREG = 200
 LENFFT = 512
@@ -94,7 +96,8 @@ for i, bw in enumerate(bandwidth_methods):
         })
 
 plt.tight_layout()
-plt.savefig("test_kde_validation.png", dpi=120)
+PLOT_PATH.parent.mkdir(parents=True, exist_ok=True)
+plt.savefig(PLOT_PATH, dpi=120)
 plt.close()
 
 # ===========================================================================
@@ -115,4 +118,4 @@ print("="*70)
 print("  ✓ Refactor validé si : 2 ou 3 modes cohérents avec ~37.5 et ~53 kHz")
 print("    (éventuellement ~25 kHz comme 3ème mode)")
 print("  ✗ Refactor à reconsidérer si : >4 modes ou positions aberrantes")
-print("\n→ Voir test_kde_validation.png pour inspection visuelle")
+print(f"\n→ Voir {PLOT_PATH} pour inspection visuelle")

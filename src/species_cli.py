@@ -57,6 +57,11 @@ def main() -> None:
     parser.add_argument("--sequence-gap-ms", type=float, default=100.0, help="Gap starting a new sequence")
     parser.add_argument("--echo-gap-ms", type=float, default=10.0, help="Maximum gap for echo detection")
     parser.add_argument("--echo-fme-bins", type=float, default=1.0, help="Maximum FME bin delta for echo detection")
+    parser.add_argument("--bandwidth-method", choices=["scott", "silverman"], default="scott", help="KDE bandwidth rule")
+    parser.add_argument("--bandwidth-scale", type=float, default=1.0, help="Multiplier applied to the KDE bandwidth")
+    parser.add_argument("--peak-prominence-ratio", type=float, default=0.05, help="Minimum KDE peak prominence as a ratio of max density")
+    parser.add_argument("--min-peak-distance-khz", type=float, default=None, help="Minimum distance between KDE peaks in kHz")
+    parser.add_argument("--max-components", type=int, default=8, help="Maximum number of GMM components allowed")
     parser.add_argument("--n-init", type=int, default=10, help="Number of GMM initializations")
     parser.add_argument("--random-state", type=int, default=42, help="Random seed")
     args = parser.parse_args()
@@ -69,7 +74,15 @@ def main() -> None:
         echo_fme_bins=args.echo_fme_bins,
     )
     fme = preprocessing.fme_khz
-    model = SpeciesGMM(n_init=args.n_init, random_state=args.random_state).fit(fme)
+    model = SpeciesGMM(
+        bandwidth_method=args.bandwidth_method,
+        bandwidth_scale=args.bandwidth_scale,
+        peak_prominence_ratio=args.peak_prominence_ratio,
+        min_peak_distance_khz=args.min_peak_distance_khz,
+        max_components=args.max_components,
+        n_init=args.n_init,
+        random_state=args.random_state,
+    ).fit(fme)
     print(clustering_report(model, fme, preprocessing.stats))
 
     ax = plot_gmm_fit(model, fme)

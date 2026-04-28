@@ -71,9 +71,11 @@
     return { grid, density, bandwidth: h };
   }
 
-  function findPeaks(grid, density, prominenceRatio) {
+  function findPeaks(grid, density, prominenceRatio, minDistanceKhz) {
     const maxDensity = maxValue(density);
     const minProminence = maxDensity * prominenceRatio;
+    const gridStep = grid.length > 1 ? Math.abs(grid[1] - grid[0]) : 1;
+    const minDistanceBins = Math.max(1, Math.round((minDistanceKhz || 0) / gridStep));
     const candidates = [];
     for (let i = 1; i < density.length - 1; i += 1) {
       if (density[i] > density[i - 1] && density[i] >= density[i + 1]) {
@@ -89,7 +91,13 @@
       for (let i = index; i <= rightBound; i += 1) rightMin = Math.min(rightMin, density[i]);
       return density[index] - Math.max(leftMin, rightMin) >= minProminence;
     });
-    return peaks.map((index) => ({ index, x: grid[index], y: density[index] }));
+    const separated = [];
+    for (const index of peaks.sort((a, b) => density[b] - density[a])) {
+      if (separated.every((kept) => Math.abs(index - kept) >= minDistanceBins)) {
+        separated.push(index);
+      }
+    }
+    return separated.sort((a, b) => a - b).map((index) => ({ index, x: grid[index], y: density[index] }));
   }
 
   function initializeFromPeaks(values, peaks, k) {
@@ -214,7 +222,13 @@
   function clusterFme(values, options) {
     if (values.length < 3) throw new Error("Trop peu de points pour le clustering");
     const kde = computeKde(values, options);
-    const peaks = findPeaks(kde.grid, kde.density, options.peakProminenceRatio);
+    const minPeakDistanceKhz = options.minPeakDistanceKhz ?? kde.bandwidth;
+    let peaks = findPeaks(kde.grid, kde.density, options.peakProminenceRatio, minPeakDistanceKhz);
+    if (!peaks.length) {
+      let maxIndex = 0;
+      for (let i = 1; i < kde.density.length; i += 1) if (kde.density[i] > kde.density[maxIndex]) maxIndex = i;
+      peaks = [{ index: maxIndex, x: kde.grid[maxIndex], y: kde.density[maxIndex] }];
+    }
     const k = Math.max(1, Math.min(options.maxComponents, peaks.length || 1));
     const model = fitGmm(values, peaks, k, options.maxIter);
     const labels = predict(values, model);

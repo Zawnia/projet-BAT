@@ -1,13 +1,21 @@
-# Byte-compiled / optimized / DLL files
+# Python cache / build artefacts
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+build/
+dist/
+*.egg-info/
 
-# Virtual environment
+# Virtual environments
 .venv/
+venv/
+env/
 
-# Linter cache
+# Tool caches
 .ruff_cache/
+.pytest_cache/
+.mypy_cache/
 .codex
 
 # IDE
@@ -16,12 +24,25 @@ __pycache__/
 *.swp
 *.swo
 
-# Generated plots
+# Generated outputs
 plots/
+outputs/
+reports/
+species_gmm_fit.png
+validation.png
+test_kde_validation.png
+*.zip
 
-# Data files (raw and simulated)
-data/raw/
-data/simulated/
+# Local data files
+data/**
+!data/
+!data/README.md
+!data/raw/
+!data/raw/.gitkeep
+!data/simulated/
+!data/simulated/.gitkeep
+!data/processed/
+!data/processed/.gitkeep
 
 # OS files
 .DS_Store
@@ -32,6 +53,3 @@ Thumbs.db
 
 # Streamlit
 .streamlit/
-
-# Python egg info
-*.egg-info/
