@@ -20,8 +20,6 @@ Les fichiers de donnees (`data/raw`, `data/simulated`, `data/processed`) restent
 ## Commandes utiles
 
 ```bash
-python -m unittest tests.test_species_clustering
 python -m src.species_cli data/raw/DATA00.TXT -o plots/clustering/species_gmm_fit.png
 ```
 
-Sous WSL, utilise un environnement Python Linux compatible avec les versions du `pyproject.toml`. Le `.venv` actuel du projet est un environnement Windows et peut ne pas se lancer directement depuis WSL.
