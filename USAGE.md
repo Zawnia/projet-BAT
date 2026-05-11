@@ -185,3 +185,41 @@ Le cas de deux individus parfaitement entrelaces a demi-ICI n'est pas corrige au
 La separation d'especes intra-passage par KDE est volontairement prudente. Sur des passages courts, elle bascule en unimodal pour eviter des pics instables.
 
 Le clustering d'especes donne une espece dominante probable par cluster ou passage, pas une annotation exhaustive de tous les individus presents.
+
+## Validation statistique du comptage individuel
+
+L'outil de validation genere un fichier capteur synthetique strict `DATA_DUMMY_<dataset>.TXT` et un CSV oracle separe. Le tracker ne lit jamais l'oracle : il relit le TXT comme une donnee reelle, puis l'evaluateur compare les tracks detectees aux scenarios simules.
+
+Avant un gros run, estimer le cout :
+
+```powershell
+uv run python -m src.individual_validation_cli profile --dataset dev --n-replicates 5
+```
+
+Generer puis evaluer un petit jeu de smoke test :
+
+```powershell
+uv run python -m src.individual_validation_cli run --dataset dev --n-replicates 5
+```
+
+Generer les jeux reproductibles complets :
+
+```powershell
+uv run python -m src.individual_validation_cli run --dataset dev --n-replicates 100
+uv run python -m src.individual_validation_cli run --dataset test --n-replicates 100
+```
+
+Le dataset `dev` sert a calibrer les parametres du tracker. Le dataset `test` sert aux figures finales du rapport et ne doit pas etre utilise pour ajuster les parametres apres inspection.
+
+Sorties principales :
+
+- `data/simulated/DATA_DUMMY_dev.TXT` et `DATA_DUMMY_dev_truth.csv` ;
+- `data/simulated/DATA_DUMMY_test.TXT` et `DATA_DUMMY_test_truth.csv` ;
+- `data/processed/validation_<dataset>_metrics_by_scenario.csv` ;
+- `data/processed/validation_<dataset>_summary_by_case.csv` ;
+- `data/processed/validation_<dataset>_track_assignments.csv` ;
+- `plots/counting/validation_<dataset>_count_error.png` ;
+- `plots/counting/validation_<dataset>_exact_rate.png` ;
+- `plots/counting/validation_<dataset>_expected_vs_detected.png` ;
+- `plots/counting/validation_<dataset>_ici_sweep.png` ;
+- `plots/counting/validation_<dataset>_fme_sweep.png`.
