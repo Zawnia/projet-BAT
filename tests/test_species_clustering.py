@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from src.species_clustering import SpeciesGMM, label_cluster
+from src.species_clustering import SpeciesGMM, label_cluster, label_passage_species
 
 
 class SpeciesGMMTests(unittest.TestCase):
@@ -53,6 +53,9 @@ class SpeciesGMMTests(unittest.TestCase):
         self.assertEqual(label_cluster(20.0), "Nyctalus sp.")
         self.assertEqual(label_cluster(13.0), "Tadarida teniotis")
         self.assertEqual(label_cluster(33.0), "Indetermine")
+
+    def test_label_passage_species_matches_reference_ranges(self) -> None:
+        self.assertEqual(label_passage_species(38.7), "Pipistrellus kuhlii")
 
 
 if __name__ == "__main__":

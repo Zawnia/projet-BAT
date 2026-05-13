@@ -25,6 +25,11 @@ def label_cluster(fme_median_khz: float) -> str:
     return "Indetermine"
 
 
+def label_passage_species(fme_median_khz: float) -> str:
+    """Return the dominant likely species for an acoustic passage."""
+    return label_cluster(fme_median_khz)
+
+
 class SpeciesGMM:
     def __init__(
         self,
